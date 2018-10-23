@@ -1,6 +1,6 @@
 # Schwuring-Machine-Simulator
 ## Overview
-This is a program to simulate the behavior of user-define Schwuring Machines. A Schwuring Machine behaves very much like a Turing Machine but with some constraints due to various pesky undecidable problems and the finite resources of our devices. First and foremost, a Schwuring Machine is not allowed to loop on any input, else the simulator would loop. Therefore a Schwuring Machine will time out after executing the millionth instruction on an input. Furthermore, the input tape to a Schwuring Machine is restricted to be less than or equal to one thousand symbols in length. Finally, a Schwuring Machine is restricted to at most fifty states(not including Q<sub>Start</sub>, Q<sub>Accept</sub>, and Q<<sub>Reject</sub>) and twenty-six symbols in the input alphabet. These constraints are defined as constants at the top of ```simulator.cpp``` and the simulator should agree with any modifications to them so long as they aren't done with the intent of breaking the program(such as setting the max input length to a negative number).
+This is a program to simulate the behavior of user-define Schwuring Machines. A Schwuring Machine behaves very much like a Turing Machine but with some constraints due to various pesky undecidable problems and the finite resources of our devices. First and foremost, a Schwuring Machine is not allowed to loop on any input, else the simulator would loop. Therefore a Schwuring Machine will time out after executing the millionth instruction on an input. Furthermore, the input tape to a Schwuring Machine is restricted to be less than or equal to one hundred symbols in length. Note that these two constraints effectively limit the time complexity of an input Schwuring Machine to strictly O(n<sup>3</sup>) for large input strings. Finally, a Schwuring Machine is restricted to at most fifty states(not including Q<sub>Start</sub>, Q<sub>Accept</sub>, and Q<<sub>Reject</sub>) and twenty-six symbols in the input alphabet. These constraints are defined as constants at the top of the simulator class in ```simulator.h``` and the simulator should agree with any modifications to them so long as they aren't done with the intent of breaking the program(such as setting the max input length to a negative number).
 
 ## Learning Goals
 
@@ -38,19 +38,19 @@ Possible usage errors that the simulator will catch:
 4. ```N > MAX_STATES``` or ```M > MAX_ALPHABET```
 5. ```#``` is an element of the input alphabet.
 
-If the simulator catches any of the above errors a helpful message will be printed and the command will be ignored
+If the simulator catches any of the above errors, a helpful message will be printed and the command will be ignored.
 
 ### DEFINE - define the transition function for a Schwuring Machine in the simulator
 Syntax: ```DEFINE <machinename>```
 
-Defines or redefines the transition function for the Schwuring Machine named by ```machinenname```. First the simulator will print the set of states followed by the tape alphabet. Then for each combination of state number ```S``` and tape alphabet character ```C``` the simulator will print ```% S C ->``` and prompt a triple from the user of the form : ```<Q> <S> <D>``` to define the transition function on ```{S,C}``` where ```Q``` is the next state from the set of states [0,N-1] or {S, A, R} for Q<sub>Start</sub>, Q<sub>Accept</sub>, or Q<sub>Reject</sub> respectively. ```S``` is the symbol to write at the tape head from the input alphabet or '#', and ```D``` is the direction to move from the set {L,R}. If the given Schwuring Machine's transition function has already been defined, the simulator will warn the user before prompting redefinition.
+Defines or redefines the transition function for the Schwuring Machine named by ```machinenname```. First the simulator will print the set of states followed by the tape alphabet. Then for each combination of state number ```S``` and tape alphabet symbol ```C``` the simulator will print ```% S C ->``` and prompt a triple from the user of the form : ```<Q> <S> <D>``` to define the transition function on ```{S,C}``` where ```Q``` is the next state from the set of states [0,N-1] or {S, A, R} for Q<sub>Start</sub>, Q<sub>Accept</sub>, or Q<sub>Reject</sub> respectively. ```S``` is the symbol to write at the tape head from the tape alphabet, and ```D``` is the direction to move from the set {L,R}. If the given Schwuring Machine's transition function has already been defined, the simulator will warn the user before prompting redefinition.
 
 Possible usage errors that the simulator will catch:
 
-1. ```machinename``` does not name a Schwuring Machine in the simulator
-2. ```Q``` is outside the range of the set of states
-3. ```S``` is not a symbol in the tape alphabet
-4. ```D``` is not one of {L,R}
+1. ```machinename``` does not name a Schwuring Machine in the simulator.
+2. ```Q``` is outside the range of the set of states.
+3. ```S``` is not a symbol in the tape alphabet.
+4. ```D``` is not one of {L,R}.
 
 If the simulator catches error 1, a helpful error message will be printed and the command will be ignored. If the simulator catches errors 2 through 4 a helpful error message will be printed and the simulator will re-prompt the triple.
 
@@ -61,9 +61,24 @@ Prints the input alphabet, states, and transition function of the Schwuring Mach
 
 Possible usage errors that the simulator will catch:
 
-1. ```machinename``` does not name a Schwuring Machine in the simulator
+1. ```machinename``` does not name a Schwuring Machine in the simulator.
 
 If the simulator catches the above error, a helpful error message will be printed and the command will be ignored.
+
+### RUN - run a Schwuring Machine on an input string
+Syntax: ```RUN <machinename> <X> <Y>```
+
+Simulates the behavior of the Schwuring Machine named by ```machinename``` on an input string where ```X``` is the number of symbols in the input string ```Y```. Any symbol past the X<sup>th</sup> symbol in ```Y``` will NOT be included in the input string and the input string will contain blank symbols from the end of the input to the end of the tape. If quiet mode is not enabled, the simulator will print the Schwuring Machine's state, tape head position, and what symbol is under the tape head for each step of its execution. Regardless of quietmode, if the Schwuring Machine halts the simulator will print whether it accepted or rejected ```Y```, the number of steps in the execution, and the position of the tape head when the Schwuring Machine halted. The simulator will then print the entire tape on a new line. If the simulator times out or goes off of either end of the tape during execution of ```machinename```, a message will be printed and execution of ```machinename``` on ```Y``` will be terminated.
+
+Possible usage errors that the simulator will catch:
+
+1. ```machinename``` does not name a Schwuring Machine in the simulator.
+2. ```machinename``` names a Schwuring Machine that has not been defined.
+3. Any symbol in ```Y``` is not in the tape alphabet of ```machinename```.
+4. ```X``` is greater than the maximum input length allowed.
+
+If the simulator catches any of the above errors, a helpful message will be printed and the command will be ignored.
+
 
 ### QUIT - quit the program
 Syntax: ```QUIT```
@@ -80,4 +95,4 @@ Any line beginning with an X is ignored. This command produces no output.
 Possible usage errors that the simulator will catch: none
 
 ## Compiling and running the simulator
-On linux, download or clone the repository using ```git clone https://github.com/adhansen/Schwuring-Machine-Simulator.git```. The provided makefile can be used to create an executable named 'schwuring' which runs the simulator.
+On Linux, download or clone the repository using ```git clone https://github.com/adhansen/Schwuring-Machine-Simulator.git```. The provided makefile can be used to create an executable named 'schwuring' which runs the simulator.
