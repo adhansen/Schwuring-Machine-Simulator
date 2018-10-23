@@ -1,8 +1,11 @@
+#include <climits>
+#include <iostream>
 #include "simulator.h"
 
-//Arbitrary constraints that limit the Schwuring Machine, feel free to adjust to your needs
-const int MAX_STATES = 50;
-const int MAX_ALPHABET = 26;
-const int MAX_INPUT_LENGTH = 1000;
-const int MAX_INSTRUCTIONS = 1000000;
+using namespace std;
 
+//Default ctor initializes tape to all blank symbols and inputSize to 0
+Simulator::Simulator() : inputSize{ 0 } {
+	for (int i = 0; i < MAX_INPUT_LENGTH; ++i)
+		tape[i] = '#';
+}

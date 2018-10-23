@@ -1,7 +1,9 @@
-//Schwuring Machine Simulator project by Alexander Hansen
+//"Schwuring Machine Simulator" project by Alexander Hansen
+//https://github.com/adhansen/Schwuring-Machine-Simulator
 
 #include <iostream>
-#include <unordered_map>
+#include <climits>
+#include <string>
 #include <getopt.h>
 #include "simulator.h"
 
@@ -34,7 +36,43 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 	}	//While
-
+	Simulator sim;
+	string command, machine;
+	int numStates, numSymbols, inputSize;
+	while (true) {
+		try {
+			cout << "% ";
+			cin >> command;
+			//All commands start with a unique character
+			if (command[0] == 'C') {
+				cin >> machine >> numStates >> numSymbols;
+				sim.addMachine(machine, numStates, numSymbols);
+			}
+			else if (command[0] == 'D') {
+				cin >> machine;
+				sim.defineMachine(machine);
+			}
+			else if (command[0] == 'P') {
+				cin >> machine;
+				sim.printMachine(machine);
+			}
+			else if (command[0] == 'R') {
+				cin >> machine >> inputSize;
+				sim.printMachine(machine);
+			}
+			else if (command[0] == 'Q') {
+				return 0;
+			}
+			else if (command[0] == 'X') {
+				cin.ignore(INT_MAX, '\n');
+			}
+			else {
+				throw "Unrecognized command: " + command;
+			}
+		}
+		catch(string error){
+			cout << error << endl;
+		}
+	}
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
