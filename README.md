@@ -28,7 +28,7 @@ On startup and following the completion of every command the program will print 
 ### CREATE - add a new Schwuring Machine to the simulator
 Syntax: ```CREATE <machinename> <M> <N> <N[0]> <N[1]> ... <N[N - 1]>```
 
-Creates a new Schwuring Machine named ```machinename``` with ```M``` states in addition to Q<sub>Start</sub>, Q<sub>Accept</sub>, and Q<<sub>Reject</sub> and ```N``` symbols in the input alphabet. Each N[i] specifies a single symbol in the input alphabet. Important caveat: ```#``` is a reserved symbol to represent the blank symbol in the tape alphabet and is therefore not allowed to be an element of the input alphabet.
+Creates a new Schwuring Machine named ```machinename``` with ```M``` states in addition to Q<sub>Start</sub>, Q<sub>Accept</sub>, and Q<sub>Reject</sub> and ```N``` symbols in the input alphabet. Each N[i] specifies a single symbol in the input alphabet. Important caveat: ```#``` is a reserved symbol to represent the blank symbol in the tape alphabet and is therefore not allowed to be an element of the input alphabet.
 
 Possible usage errors that the simulator will catch:
 
