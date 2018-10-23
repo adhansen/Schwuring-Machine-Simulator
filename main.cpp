@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 	}	//While
-	Simulator sim;
+	Simulator sim(quietMode);
 	string command, machine;
 	int numStates, numSymbols, inputSize;
 	while (true) {
@@ -61,6 +61,7 @@ int main(int argc, char* argv[]) {
 				sim.printMachine(machine);
 			}
 			else if (command[0] == 'Q') {
+				cout << "Thanks for using the simulator!\n";
 				return 0;
 			}
 			else if (command[0] == 'X') {
@@ -71,7 +72,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		catch(string error){
-			cout << error << endl;
+			cout << error << '\n';
 		}
 	}
 	return 0;
