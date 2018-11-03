@@ -35,7 +35,7 @@ Possible usage errors that the simulator will catch:
 1. ```machinename``` names a Schwuring Machine that already exists in the simulator.
 2. Duplicate defined symbols in the input alphabet.
 3. Either N or M is negative.
-4. ```N > MAX_STATES``` or ```M > MAX_ALPHABET```
+4. ```M > MAX_STATES``` or ```N > MAX_ALPHABET```
 5. ```#``` is an element of the input alphabet.
 
 If the simulator catches any of the above errors, a helpful message will be printed and the command will be ignored.
@@ -43,7 +43,7 @@ If the simulator catches any of the above errors, a helpful message will be prin
 ### DEFINE - define the transition function for a Schwuring Machine in the simulator
 Syntax: ```DEFINE <machinename>```
 
-Defines or redefines the transition function for the Schwuring Machine named by ```machinenname```. First the simulator will print the set of states followed by the tape alphabet. Then for each combination of state number ```S``` and tape alphabet symbol ```C``` the simulator will print ```% S C ->``` and prompt a triple from the user of the form : ```<Q> <B> <D>``` to define the transition function on ```{S,C}``` where ```Q``` is the next state from the set of states [0,N-1] or {S, A, R} for Q<sub>Start</sub>, Q<sub>Accept</sub>, or Q<sub>Reject</sub> respectively. ```B``` is the symbol to write at the tape head from the tape alphabet, and ```D``` is the direction to move from the set {L,R}. If the given Schwuring Machine's transition function has already been defined, the simulator will warn the user before prompting redefinition.
+Defines or redefines the transition function for the Schwuring Machine named by ```machinenname```. First the simulator will print the set of states followed by the tape alphabet. Then for each combination of state number ```S``` and tape alphabet symbol ```C``` the simulator will print ```% S C ->``` and prompt a triple from the user of the form : ```<Q> <B> <D>``` to define the transition function on ```{S,C}``` where ```Q``` is the next state from the 1-indexed set of states [1,M] or {S, A, R} for Q<sub>Start</sub>, Q<sub>Accept</sub>, or Q<sub>Reject</sub> respectively. ```B``` is the symbol to write at the tape head from the tape alphabet, and ```D``` is the direction to move from the set {L,R}. If the given Schwuring Machine's transition function has already been defined, the simulator will warn the user before prompting redefinition.
 
 Possible usage errors that the simulator will catch:
 
@@ -76,9 +76,18 @@ Possible usage errors that the simulator will catch:
 2. ```machinename``` names a Schwuring Machine that has not been defined.
 3. Any symbol in ```Y``` is not in the tape alphabet of ```machinename```.
 4. ```X``` is greater than the maximum input length allowed.
+5. The tapehead goes off of either end of the tape during execution of ```machinename``` on ```Y```
 
-If the simulator catches any of the above errors, a helpful message will be printed and the command will be ignored.
+If the simulator catches any of the above errors, a helpful message will be printed and the command will be ignored or if applicable execution of the Schwuring Machine will stop.
 
+### SHRED - remove a Schwuring Machine from the simulator
+Syntax: ```SHRED <machinename>```
+
+Will delete the Schwuring Machine named by ```machinename``` from the simulator.
+
+Possible usage errors that the simulator will catch:
+
+1. ```machinename``` does not name a Schwuring Machine in the simulator.
 
 ### QUIT - quit the program
 Syntax: ```QUIT```

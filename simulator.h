@@ -26,14 +26,17 @@ private:
 		struct Transition {
 			int stateOut;
 			char symbolOut;
-			bool moveLeft;
+			bool moveRight;
 		};
 		Transition *transitionFunction = nullptr;
 		//Schwuring struct is responsible for cleaning up gamma and transitionFunction
 		~Schwuring();
+		//Binary search on gamma for query (error checking DEFINE, RUN) returns index of query or -1
+		int findSymbol(char query) const;
 	};
 	//For constant-time lookup of Schwuring machines based on the machine's name
 	std::unordered_map<std::string, Schwuring> machines;
+
 public:
 	//Nondefault ctor initializes tape to all blank symbols and inputSize to 0, specifies quietmode
 	Simulator(bool is_quiet);
@@ -46,10 +49,13 @@ public:
 	void defineMachine(std::string name_in);
 
 	//Prints information about machine given by name_in
-	void printMachine(std::string name_in) const;
+	//void printMachine(std::string name_in) const;
 
-	//Runs machine given my name_in on input read from cin
+	//Runs machine given by name_in, reads input string from cin
 	void runMachine(std::string name_in, int input_size);
+
+	//Removes the machine given by name_in from the simulator
+	//void printMachine(std::string name_in) const;
 
 };
 #endif

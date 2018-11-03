@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 	}	//While
 	Simulator sim(quietMode);
 	string command, machine;
-	int numStates, numSymbols, inputSize;
+	int numStates, numSymbols, size;
 	while (true) {
 		try {
 			cout << "% ";
@@ -54,11 +54,11 @@ int main(int argc, char* argv[]) {
 			}
 			else if (command[0] == 'P') {
 				cin >> machine;
-				sim.printMachine(machine);
+				//sim.printMachine(machine);
 			}
 			else if (command[0] == 'R') {
-				cin >> machine >> inputSize;
-				sim.printMachine(machine);
+				cin >> machine >> size;
+				sim.runMachine(machine, size);
 			}
 			else if (command[0] == 'Q') {
 				cout << "Thanks for using the simulator!\n";
@@ -67,11 +67,16 @@ int main(int argc, char* argv[]) {
 			else if (command[0] == 'X') {
 				cin.ignore(INT_MAX, '\n');
 			}
+			else if (command[0] == 'S') {
+				cin >> machine;
+				//sim.shredMachine(machine);
+			}
 			else {
 				throw "Unrecognized command: " + command;
 			}
 		}
 		catch(string error){
+			cin.ignore(INT_MAX, '\n');
 			cout << error << '\n';
 		}
 	}
