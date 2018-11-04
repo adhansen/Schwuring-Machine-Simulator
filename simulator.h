@@ -49,13 +49,13 @@ public:
 	void defineMachine(std::string name_in);
 
 	//Prints information about machine given by name_in
-	//void printMachine(std::string name_in) const;
+	void printMachine(std::string name_in) const;
 
 	//Runs machine given by name_in, reads input string from cin
 	void runMachine(std::string name_in, int input_size);
 
 	//Removes the machine given by name_in from the simulator
-	//void printMachine(std::string name_in) const;
+	void shredMachine(std::string name_in);
 
 };
 #endif

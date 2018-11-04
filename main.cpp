@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 			}
 			else if (command[0] == 'P') {
 				cin >> machine;
-				//sim.printMachine(machine);
+				sim.printMachine(machine);
 			}
 			else if (command[0] == 'R') {
 				cin >> machine >> size;
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 			}
 			else if (command[0] == 'S') {
 				cin >> machine;
-				//sim.shredMachine(machine);
+				sim.shredMachine(machine);
 			}
 			else {
 				throw "Unrecognized command: " + command;

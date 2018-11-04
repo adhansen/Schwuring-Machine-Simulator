@@ -76,7 +76,7 @@ Possible usage errors that the simulator will catch:
 2. ```machinename``` names a Schwuring Machine that has not been defined.
 3. Any symbol in ```Y``` is not in the tape alphabet of ```machinename```.
 4. ```X``` is greater than the maximum input length allowed.
-5. The tapehead goes off of either end of the tape during execution of ```machinename``` on ```Y```
+5. The tape head goes off of either end of the tape during execution of ```machinename``` on ```Y```
 
 If the simulator catches any of the above errors, a helpful message will be printed and the command will be ignored or if applicable execution of the Schwuring Machine will stop.
 

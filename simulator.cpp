@@ -194,6 +194,59 @@ void Simulator::defineMachine(string name_in) {
 	}
 }
 
+//Prints information about machine given by name_in
+void Simulator::printMachine(string name_in) const {
+	unordered_map<string, Schwuring>::const_iterator currentMachine = machines.find(name_in);
+	if (currentMachine == machines.end()) {
+		throw '\"' + name_in + "\" does not name a machine in the simulator";
+	}
+	cout << "Name: " << currentMachine->first << '\n';
+	cout << "States: S, ";
+	if (currentMachine->second.numStates > 1) {
+		cout << "1-" << currentMachine->second.numStates - 1;
+	}
+	cout << ", A, R\n";
+	cout << "Tape alphabet: ";
+	for (int i = 0; i < currentMachine->second.gammaSize; ++i) {
+		cout << currentMachine->second.gamma[i] << ' ';
+	}
+	cout << "\nTransition function: ";
+	if (!currentMachine->second.transitionFunction) {
+		cout << "undefined\n";
+	}
+	else {
+		for (int i = 1; i < currentMachine->second.numStates; ++i) {
+			for (int j = 0; j < currentMachine->second.gammaSize; ++j) {
+				if (i == 0) {
+					cout << "S(" << currentMachine->second.gamma[j] << ") = {";
+				}
+				else {
+					cout << i << '(' << currentMachine->second.gamma[j] << ") = {";
+				}
+				if (currentMachine->second.transitionFunction[(i * currentMachine->second.gammaSize) + j].stateOut == 0) {
+					cout << "S, ";
+				}
+				else if (currentMachine->second.transitionFunction[(i * currentMachine->second.gammaSize) + j].stateOut == Q_ACCEPT) {
+					cout << "A, ";
+				}
+				else if (currentMachine->second.transitionFunction[(i * currentMachine->second.gammaSize) + j].stateOut == Q_REJECT) {
+					cout << "R, ";
+				}
+				else {
+					cout << currentMachine->second.transitionFunction[(i * currentMachine->second.gammaSize) + j].stateOut << ", ";
+				}
+				cout << currentMachine->second.transitionFunction[(i * currentMachine->second.gammaSize) + j].symbolOut << ", ";
+				if (currentMachine->second.transitionFunction[(i * currentMachine->second.gammaSize) + j].moveRight) {
+					cout << "R}\n";
+				}
+				else {
+					cout << "L}\n";
+				}
+			}
+		}
+	}
+}
+
 //Runs machine given by name_in, reads input string from cin
 void Simulator::runMachine(string name_in, int input_size) {
 	unordered_map<string, Schwuring>::iterator currentMachine = machines.find(name_in);
@@ -270,4 +323,14 @@ void Simulator::runMachine(string name_in, int input_size) {
 	else {
 		cout << currentMachine->first << "timed out!\n";
 	}
+}
+
+//Removes the machine given by name_in from the simulator
+void Simulator::shredMachine(string name_in) {
+	unordered_map<string, Schwuring>::iterator currentMachine = machines.find(name_in);
+	if (currentMachine == machines.end()) {
+		throw '\"' + name_in + "\" does not name a machine in the simulator";
+	}
+	machines.erase(currentMachine);
+	cout << "Erased " << name_in << "from simulator\n";
 }
