@@ -38,7 +38,7 @@ int Simulator::Schwuring::findSymbol(char query) const{
 }
 
 //Default ctor initializes tape to all blank symbols and inputSize to 0
-Simulator::Simulator(bool is_quiet) : inputSize{ 0 }, quiet{ is_quiet } {
+Simulator::Simulator(bool is_quiet) : quiet{ is_quiet }, inputSize{ 0 } {
 	for (int i = 0; i < MAX_INPUT_LENGTH; ++i) {
 		tape[i] = '#';
 	}
