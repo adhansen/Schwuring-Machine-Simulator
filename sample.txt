@@ -1,0 +1,37 @@
+XX TwoPow: accepts all strings of 0s that are a power of two in length
+CREATE TwoPow 4 2 0 X
+DEFINE TwoPow
+
+R # R
+1 # R
+R X R
+
+A # R
+2 X R
+1 X R
+
+3 # L
+4 0 R
+2 X R
+
+1 # R
+3 0 L
+3 X L
+
+R # R
+2 X R
+4 X R
+
+RUN TwoPow 1 0
+RUN TwoPow 3 000
+RUN TwoPow 4 0000
+RUN TwoPow 6 000000
+RUN TwoPow 16 0000000000000000
+RUN TwoPow 20 00000000000000000000
+RUN TwoPow 64 0000000000000000000000000000000000000000000000000000000000000000
+
+
+PRINT TwoPow
+SHRED TwoPow
+XX Machines do not have to be erased with SHRED before calling QUIT, QUIT will clean up memory
+QUIT
