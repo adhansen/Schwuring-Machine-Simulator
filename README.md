@@ -11,8 +11,8 @@ This is a program to simulate the behavior of user-define Schwuring Machines. A 
 * Create an interesting, complex program and effectively communicate to other programmers how to use it properly.
 
 ## Project Specification
-### Command Line Usage
-The simulator accepts the following optional command line arguments:
+### Compiling and Command Line Usage
+The provided code files should compile properly on Windows & Linux using ```-std=c++11```, creating an executable that accepts the following optional command line arguments:
 
 1.```-h, --help```
 
@@ -102,6 +102,3 @@ Syntax: ```XX ignore this entire line```
 Any line beginning with an X is ignored. This command produces no output.
 
 Possible usage errors that the simulator will catch: none
-
-## Compiling and running the simulator
-On Linux, download or clone the repository using ```git clone https://github.com/adhansen/Schwuring-Machine-Simulator.git```. The provided makefile can be used to create an executable named 'schwuring' which runs the simulator.

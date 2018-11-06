@@ -37,7 +37,9 @@ int Simulator::Schwuring::findSymbol(char query) const{
 
 //Default ctor initializes tape to all blank symbols and inputSize to 0
 Simulator::Simulator(bool is_quiet) : inputSize{ 0 }, quiet{ is_quiet } {
-	std::iota(tape, tape + MAX_INPUT_LENGTH, '#');
+	for (int i = 0; i < MAX_INPUT_LENGTH; ++i) {
+		tape[i] = '#';
+	}
 }
 
 //Adds a new machine to the simulator, reads num_symbols symbols from cin
@@ -56,10 +58,8 @@ void Simulator::addMachine(string name_in, int num_states, int num_symbols) {
 	currentMachine = machines.emplace(name_in, Schwuring()).first;
 	currentMachine->second.numStates = num_states + 1;
 	currentMachine->second.gammaSize = num_symbols + 1;
-	//Copy ptr to gamma for readability and less dereferencing of currentMachine iterator
-	char *gammaRef = currentMachine->second.gamma;
-	gammaRef = new char[num_symbols + 1];
-	gammaRef[0] = '#';
+	currentMachine->second.gamma = new char[num_symbols + 1];
+	currentMachine->second.gamma[0] = '#';
 	for (int i = 1; i < num_symbols + 1; ++i) {
 		char next;
 		cin >> next;
@@ -68,21 +68,21 @@ void Simulator::addMachine(string name_in, int num_states, int num_symbols) {
 			throw "The blank symbol \'#\' cannot be a member of the input alphabet";
 		}
 		else {
-			gammaRef[i] = next;
+			currentMachine->second.gamma[i] = next;
 		}
 	}
 	//Sort gamma->faster symbol lookup when error-checking RUN and ensuring no dupes in this command
-	std::sort(gammaRef, gammaRef + num_symbols + 1);
+	std::sort(currentMachine->second.gamma, currentMachine->second.gamma + num_symbols + 1);
 	for (int i = 0; i < num_symbols; ++i) {
-		if (gammaRef[i] == gammaRef[i + 1]) {
+		if (currentMachine->second.gamma[i] == currentMachine->second.gamma[i + 1]) {
 			machines.erase(currentMachine);
 			throw "Duplicate symbols are not allowed in the input alphabet";
 		}
 	}
-	return;
+	cout << "Created " << name_in << '\n';
 }
 
-//Defines machine given by name_in according to input from cin
+//Defines machine given by name_in according to input from cin FIXME: parentheses, update in .md
 void Simulator::defineMachine(string name_in) {
 	char symbolWrite, direction, nextStateChar;
 	int nextStateInt;
@@ -201,21 +201,21 @@ void Simulator::printMachine(string name_in) const {
 		throw '\"' + name_in + "\" does not name a machine in the simulator";
 	}
 	cout << "Name: " << currentMachine->first << '\n';
-	cout << "States: S, ";
+	cout << "States: S";
 	if (currentMachine->second.numStates > 1) {
-		cout << "1-" << currentMachine->second.numStates - 1;
+		cout << ", 1-" << currentMachine->second.numStates - 1;
 	}
 	cout << ", A, R\n";
 	cout << "Tape alphabet: ";
 	for (int i = 0; i < currentMachine->second.gammaSize; ++i) {
 		cout << currentMachine->second.gamma[i] << ' ';
 	}
-	cout << "\nTransition function: ";
+	cout << "\nTransition function: \n";
 	if (!currentMachine->second.transitionFunction) {
 		cout << "undefined\n";
 	}
 	else {
-		for (int i = 1; i < currentMachine->second.numStates; ++i) {
+		for (int i = 0; i < currentMachine->second.numStates; ++i) {
 			for (int j = 0; j < currentMachine->second.gammaSize; ++j) {
 				if (i == 0) {
 					cout << "S(" << currentMachine->second.gamma[j] << ") = {";
@@ -287,21 +287,28 @@ void Simulator::runMachine(string name_in, int input_size) {
 		}
 		//print info if not in quiet mode
 		if (!quiet) {
-			cout << "Instructions executed = " << executed << " state = ";
+			cout << "Instructions executed = " << executed << ", state = ";
 			if (currState == 0) {
 				cout << "Start";
+			}
+			else if (currState == Q_ACCEPT) {
+				cout << "Accept";
+			}
+			else if (currState == Q_REJECT) {
+				cout << "Reject";
 			}
 			else {
 				cout << currState;
 			}
-			cout << " tape head at position: " << tapeHead << " symbol under tape head: "
+			cout << ", tape head at position: " << tapeHead << ", symbol under tape head: "
 				<< tape[tapeHead] << '\n';
 
 		}
-		//Check if in end state, else increment executed and repeat
+		//Check if in end state, else continue with execution
 		if (currState < 0) {
 			break;
 		}
+		//Execute Transition function
 		tapeSymIndex = currentMachine->second.findSymbol(tape[tapeHead]);
 		tape[tapeHead] = currentMachine->second.transitionFunction[currState * currentMachine->second.gammaSize + tapeSymIndex].symbolOut;
 		if (currentMachine->second.transitionFunction[currState * currentMachine->second.gammaSize + tapeSymIndex].moveRight) {
@@ -332,5 +339,5 @@ void Simulator::shredMachine(string name_in) {
 		throw '\"' + name_in + "\" does not name a machine in the simulator";
 	}
 	machines.erase(currentMachine);
-	cout << "Erased " << name_in << "from simulator\n";
+	cout << "Erased " << name_in << " from simulator\n";
 }
