@@ -12,7 +12,9 @@ const int Q_REJECT = -2;
 //Schwuring struct is responsible for cleaning up gamma and transitionFunction
 Simulator::Schwuring::~Schwuring() {
 	delete[] gamma;
+	gamma = nullptr;
 	delete[] transitionFunction;
+	transitionFunction = nullptr;
 }
 
 //Binary search on gamma for query (error checking DEFINE, RUN) returns index of query or -1 
