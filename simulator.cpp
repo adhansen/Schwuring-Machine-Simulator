@@ -45,6 +45,7 @@ Simulator::Simulator(bool is_quiet) : quiet{ is_quiet }, inputSize{ 0 } {
 }
 
 //Adds a new machine to the simulator, reads num_symbols symbols from cin
+//Responsible for sorting gamma to allow binary search for symbols with RUN command
 void Simulator::addMachine(string name_in, int num_states, int num_symbols) {
 	unordered_map<string, Schwuring>::iterator currentMachine = machines.find(name_in);
 	if (currentMachine != machines.end()) {
@@ -73,7 +74,7 @@ void Simulator::addMachine(string name_in, int num_states, int num_symbols) {
 			currentMachine->second.gamma[i] = next;
 		}
 	}
-	//Sort gamma->faster symbol lookup when error-checking RUN and ensuring no dupes in this command
+	//Sort gamma, faster symbol lookup when error-checking RUN and ensuring no dupes in this command
 	std::sort(currentMachine->second.gamma, currentMachine->second.gamma + num_symbols + 1);
 	for (int i = 0; i < num_symbols; ++i) {
 		if (currentMachine->second.gamma[i] == currentMachine->second.gamma[i + 1]) {
@@ -84,7 +85,7 @@ void Simulator::addMachine(string name_in, int num_states, int num_symbols) {
 	cout << "Created " << name_in << '\n';
 }
 
-//Defines machine given by name_in according to input from cin FIXME: parentheses, update in .md
+//Defines machine given by name_in according to input from cin
 void Simulator::defineMachine(string name_in) {
 	char symbolWrite, direction, nextStateChar;
 	int nextStateInt;

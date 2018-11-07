@@ -104,4 +104,4 @@ Any line beginning with an X is ignored. This command produces no output.
 Possible usage errors that the simulator will catch: none
 
 ## Compiling and running the simulator
-On Linux, download or clone the repository using ```git clone https://github.com/adhansen/Schwuring-Machine-Simulator.git```. The provided makefile can be used to create an executable named ```schwuring``` which runs the simulator.
+On Linux, download or clone the repository using ```git clone https://github.com/adhansen/Schwuring-Machine-Simulator.git```. The provided Makefile can be used to create an executable named ```schwuring``` which runs the simulator.

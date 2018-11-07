@@ -18,7 +18,7 @@ private:
 	int inputSize;
 
 	//Representation of a SM - gamma and transitionFunction allocated based on user input
-	//NumStates is inclusive of S, A, R; gammaSize includes blank symbol '#'
+	//NumStates is inclusive of S(Storing A, R not necessary); gammaSize includes blank symbol '#'
 	struct Schwuring {
 		int numStates;
 		int gammaSize;
@@ -31,7 +31,7 @@ private:
 		Transition *transitionFunction = nullptr;
 		//Schwuring struct is responsible for cleaning up gamma and transitionFunction
 		~Schwuring();
-		//Binary search on gamma for query (error checking DEFINE, RUN) returns index of query or -1
+		//Binary search on gamma for query, returns index of query or -1
 		int findSymbol(char query) const;
 	};
 	//For constant-time lookup of Schwuring machines based on the machine's name
