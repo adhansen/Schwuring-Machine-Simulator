@@ -315,10 +315,10 @@ void Simulator::runMachine(string name_in, int input_size) {
 		tapeSymIndex = currentMachine->second.findSymbol(tape[tapeHead]);
 		tape[tapeHead] = currentMachine->second.transitionFunction[currState * currentMachine->second.gammaSize + tapeSymIndex].symbolOut;
 		if (currentMachine->second.transitionFunction[currState * currentMachine->second.gammaSize + tapeSymIndex].moveRight) {
-			tapeHead++;
+			++tapeHead;
 		}
 		else {
-			tapeHead--;
+			--tapeHead;
 		}
 		currState = currentMachine->second.transitionFunction[currState * currentMachine->second.gammaSize + tapeSymIndex].stateOut;
 		++executed;
